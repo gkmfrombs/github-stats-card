@@ -1,0 +1,10 @@
+{
+  "name": "github-stats-card",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Self-hosted, custom-styled GitHub stats cards for a profile README",
+  "engines": {
+    "node": ">=18"
+  }
+}

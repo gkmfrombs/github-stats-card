@@ -8,6 +8,7 @@ scratch (no forked repo), themed to match a purple → teal → gold palette.
 - `GET /api/stats?username=<login>` — stars, commits, PRs, issues, repos, followers
 - `GET /api/toplangs?username=<login>` — top languages by byte size, as bars
 - `GET /api/activity?username=<login>` — last-year contribution activity as a gradient area chart
+- `GET /api/streak?username=<login>` — total contributions, current streak, and longest streak (computed over the last 365 days of the GraphQL contribution calendar)
 
 Both return `image/svg+xml` and are cached for 1 hour (`s-maxage=3600`).
 
@@ -25,6 +26,7 @@ Both return `image/svg+xml` and are cached for 1 hour (`s-maxage=3600`).
 ![Stats](https://<your-project>.vercel.app/api/stats?username=gkmfrombs)
 ![Top Langs](https://<your-project>.vercel.app/api/toplangs?username=gkmfrombs)
 ![Activity](https://<your-project>.vercel.app/api/activity?username=gkmfrombs)
+![Streak](https://<your-project>.vercel.app/api/streak?username=gkmfrombs)
 ```
 
 ## Local dev

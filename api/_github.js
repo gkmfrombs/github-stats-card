@@ -117,6 +117,37 @@ export async function fetchActivity(login) {
   };
 }
 
+export async function fetchStreak(login) {
+  const data = await ghGraphQL(ACTIVITY_QUERY, { login });
+  const calendar = data.user.contributionsCollection.contributionCalendar;
+  const days = calendar.weeks
+    .flatMap((w) => w.contributionDays)
+    .map((d) => ({ date: d.date, count: d.contributionCount }));
+
+  let longest = 0;
+  let run = 0;
+  for (const d of days) {
+    run = d.count > 0 ? run + 1 : 0;
+    if (run > longest) longest = run;
+  }
+
+  // Today may not be "over" yet, so a 0 on the final day doesn't break
+  // an in-progress streak — start counting from the day before it instead.
+  let current = 0;
+  let idx = days.length - 1;
+  if (days[idx] && days[idx].count === 0) idx--;
+  while (idx >= 0 && days[idx].count > 0) {
+    current++;
+    idx--;
+  }
+
+  return {
+    totalContributions: calendar.totalContributions,
+    currentStreak: current,
+    longestStreak: longest,
+  };
+}
+
 export async function fetchTopLanguages(login, limit = 6) {
   const totals = new Map(); // name -> { size, color }
   let after = null;

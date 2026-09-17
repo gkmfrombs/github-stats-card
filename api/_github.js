@@ -20,6 +20,23 @@ query ($login: String!) {
   }
 }`;
 
+const ACTIVITY_QUERY = `
+query ($login: String!) {
+  user(login: $login) {
+    contributionsCollection {
+      contributionCalendar {
+        totalContributions
+        weeks {
+          contributionDays {
+            date
+            contributionCount
+          }
+        }
+      }
+    }
+  }
+}`;
+
 const LANGS_QUERY = `
 query ($login: String!, $after: String) {
   user(login: $login) {
@@ -78,6 +95,25 @@ export async function fetchStats(login) {
     totalPRs: c.totalPullRequestContributions,
     totalIssues: c.totalIssueContributions,
     contributionsThisYear: c.contributionCalendar.totalContributions,
+  };
+}
+
+export async function fetchActivity(login) {
+  const data = await ghGraphQL(ACTIVITY_QUERY, { login });
+  const calendar = data.user.contributionsCollection.contributionCalendar;
+  const weeks = calendar.weeks.map((week) => {
+    const total = week.contributionDays.reduce(
+      (sum, day) => sum + day.contributionCount,
+      0
+    );
+    return {
+      weekStart: week.contributionDays[0]?.date,
+      total,
+    };
+  });
+  return {
+    totalContributions: calendar.totalContributions,
+    weeks,
   };
 }
 

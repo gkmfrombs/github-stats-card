@@ -7,6 +7,7 @@ scratch (no forked repo), themed to match a purple → teal → gold palette.
 
 - `GET /api/stats?username=<login>` — stars, commits, PRs, issues, repos, followers
 - `GET /api/toplangs?username=<login>` — top languages by byte size, as bars
+- `GET /api/activity?username=<login>` — last-year contribution activity as a gradient area chart
 
 Both return `image/svg+xml` and are cached for 1 hour (`s-maxage=3600`).
 
@@ -23,6 +24,7 @@ Both return `image/svg+xml` and are cached for 1 hour (`s-maxage=3600`).
 ```md
 ![Stats](https://<your-project>.vercel.app/api/stats?username=gkmfrombs)
 ![Top Langs](https://<your-project>.vercel.app/api/toplangs?username=gkmfrombs)
+![Activity](https://<your-project>.vercel.app/api/activity?username=gkmfrombs)
 ```
 
 ## Local dev
